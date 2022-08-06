@@ -1,8 +1,7 @@
 const Player = require('../lib/Player');
 const Potion = require('../lib/__mocks__/Potion');
-jest.mock ('../lib/Potion');
 
-console.log(new Potion());
+jest.mock ('../lib/Potion');
 
 test('creates a player object', () => {
     const player = new Player('Carmine');
@@ -47,25 +46,6 @@ test('checks if player is alive or not', () => {
     expect(player.isAlive()).toBeFalsy();
 });
 
-test("subtracts from player's health", () => {
-    const player = new Player('Carmine');
-    const oldHealth = player.health;
-
-    player.reduceHealth(5);
-    expect(player.health).toBe(oldHealth - 5);
-    
-    player.reduceHealth(99999);
-    expect(player.health).toBe(0);
-});
-
-test("gets player's attack value", () => {
-    const player = new Player('Carmine');
-    player.strength = 10;
-
-    expect(player.getAttackValue()).toBeGreaterThanOrEqual(5);
-    expect(player.getAttackValue()).toBeLessThanOrEqual(15);
-});
-
 test('adds a potion to the inventory', () => {
     const player = new Player('Carmine');
     const oldCount = player.inventory.length;
@@ -82,4 +62,23 @@ test('use a potion from inventory', () => {
     player.usePotion(1);
 
     expect(player.inventory.length).toBeLessThan(oldCount);
+});
+
+test("gets player's attack value", () => {
+    const player = new Player('Carmine');
+    player.strength = 10;
+
+    expect(player.getAttackValue()).toBeGreaterThanOrEqual(5);
+    expect(player.getAttackValue()).toBeLessThanOrEqual(15);
+});
+
+test("subtracts from player's health", () => {
+    const player = new Player('Carmine');
+    const oldHealth = player.health;
+
+    player.reduceHealth(5);
+    expect(player.health).toBe(oldHealth - 5);
+    
+    player.reduceHealth(99999);
+    expect(player.health).toBe(0);
 });
